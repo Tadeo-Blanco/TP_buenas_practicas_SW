@@ -12,6 +12,7 @@ void ingresardatos(struct semaforo *S);
 void mostrar(struct semaforo *S);
 void comparador(struct semaforo *S);
 void comptrafico(struct semaforo *S);
+void buscarSilaba(struct semaforo *S); 
 int main() {
 	struct semaforo *S;
 	S =(struct semaforo*)malloc(1*sizeof(struct semaforo));
@@ -21,8 +22,9 @@ int main() {
 		printf("1. Ingresar semaforo\n");
 		printf("2. Mostrar\n");
 		printf("3. Busqueda por nombre de calle\n");
-		printf("4.Busqueda por trafico \n");
-		printf("5. salir\n");
+		printf("4. Busqueda por trafico \n");
+		printf("5. Busqueda por silaba \n");
+		printf("6. salir\n");
 		scanf("%d",&opcion);
 		if(opcion==1){
 			inicializar++;
@@ -44,12 +46,15 @@ int main() {
 				comptrafico(S);
 			break;
 			case 5:
+				buscarSilaba(S);
+				break;
+			case 6:
 				printf("saliendo..");
 				break;
 			}
 		}
 	}
-	while(opcion!=5);
+	while(opcion!=6);
 }
 void ingresardatos(struct semaforo *S){
 
@@ -110,5 +115,28 @@ void comptrafico(struct semaforo *S){
 	{                                              
 		printf("\ncalle 1: %s\ncalle 2: %s\n trafico: %d\n",S[i].calle1,S[i].calle2,S[i].trafico);
 	}
+	}
+}
+void buscarSilaba(struct semaforo *S) {
+	char silaba[40];
+	int i, encontrado = 0;
+	
+	printf("Ingrese la silaba que desea buscar:\n");
+	scanf("%39s", silaba);
+	
+	for (i = 0; i < S->cantidad; i++) {
+		if (strstr(S[i].calle1, silaba) != NULL ||
+				   strstr(S[i].calle2, silaba) != NULL) {
+			
+			printf("\nCalle 1: %s\n", S[i].calle1);
+			printf("Calle 2: %s\n", S[i].calle2);
+			printf("Trafico: %d\n", S[i].trafico);
+			
+			encontrado = 1;
+		}
+	}
+	
+	if (encontrado == 0) {
+		printf("No se encontraron intersecciones con esa silaba.\n");
 	}
 }
